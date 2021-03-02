@@ -1,4 +1,4 @@
-module.exports = [
+const todos = [
   { id: 1,
     todo: 'wash clothes',
     completed: false,
@@ -15,9 +15,12 @@ module.exports = [
     
     
   },
-  { id: 1,
+  { id: 4,
     todo: 'call mom',
     completed: false,
     
   },
 ];
+module.exports = {
+  todos
+};
