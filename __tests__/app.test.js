@@ -32,20 +32,8 @@ describe('app routes', () => {
       return client.end(done);
     });
 
-    // test('returns todos', async() => {
-
-    //   const expectAllTodos =  todos;
-
-    //   const response = await fakeRequest(app)
-    //     .get('/api/todos')
-    //     .set('Authorization', token)
-    //     .expect('Content-Type', /json/)
-    //     .expect(200);
-
-    //   expect(response.body).toEqual(expectAllTodos);
-        
-    // });
-
+    
+    // POST TEST //
     test('create a todo for test user', async() => {
       const aTodo = {
         todo: 'take out the garbage',
@@ -69,5 +57,28 @@ describe('app routes', () => {
       expect(data.body).toEqual(expected);
 
     });
+
+    // GET TEST //
+    test('read the test users todos', async() => {
+      const expected = [
+        { id: 5,
+          todo: 'take out the garbage',
+          completed: false,
+          user_id: 2
+        },
+
+      ];
+      
+      const data = await fakeRequest(app)
+        .get('/api/todos')
+        .set('Authorization', token)
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      expect(data.body).toEqual(expected);
+
+
+    });
+
   });
 });
