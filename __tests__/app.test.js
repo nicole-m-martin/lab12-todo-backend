@@ -80,25 +80,25 @@ describe('app routes', () => {
 
     // PUT TEST //
   
-    test('update the test users completed to true', async() => {
-      const expected = 
-        { id: 5,
-          todo: 'take out the garbage',
-          completed: true,
-          user_id: 2
-        };
+    // test('update the test users completed to true', async() => {
+    //   const expected = 
+    //     { id: 5,
+    //       todo: 'take out the garbage',
+    //       completed: true,
+    //       user_id: 2
+    //     };
     
-      const data = await fakeRequest(app)
-        .put('/api/todos/5')
-        .send({ id: 5 })
-        .set('Authorization', token)
-        .expect('Content-Type', /json/);
-      // .expect(500);
+    //   const data = await fakeRequest(app)
+    //     .put('/api/todos/5')
+    //     .send({ id: 5 })
+    //     .set('Authorization', token)
+    //     .expect('Content-Type', /json/);
+    //   // .expect(500);
 
-      expect(data.body).toEqual(expected);
+    //   expect(data.body).toEqual(expected);
 
 
-    });
+    // });
 
 
   });
