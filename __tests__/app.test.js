@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const { execSync } = require('child_process');
-const { todos } = require('../data/todos');
+// const { todos } = require('../data/todos');
 
 const fakeRequest = require('supertest');
 const app = require('../lib/app');
@@ -80,26 +80,27 @@ describe('app routes', () => {
 
     // PUT TEST //
   
-    // test('update the test users completed to true', async() => {
-    //   const expected = 
-    //     { id: 5,
-    //       todo: 'take out the garbage',
-    //       completed: true,
-    //       user_id: 2
-    //     };
-    
-    //   const data = await fakeRequest(app)
-    //     .put('/api/todos/5')
-    //     .send({ id: 5 })
-    //     .set('Authorization', token)
-    //     .expect('Content-Type', /json/);
-    //   // .expect(500);
+    test('updates a todo to completed: true', async() => {
 
-    //   expect(data.body).toEqual(expected);
+      const updateTodo = {
+        todo: 'take out the garbage',
+        completed: true,
+      };
 
+      await fakeRequest(app)
+        .put('/api/todos/5')
+        .send(updateTodo)
+        .set('Authorization', token)
+        .expect('Content-Type', /json/)
+        .expect(200);
+      
+      const newData = await fakeRequest(app)
+        .get('/api/todos')
+        .set('Authorization', token)
+        // .expect('Content-Type', /json/)
+        .expect(200);
 
-    // });
-
-
+      expect(newData.body[0]).toEqual({ ...updateTodo, id: 5, user_id: 2 });
+    });
   });
 });
