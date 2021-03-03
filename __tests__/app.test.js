@@ -80,27 +80,27 @@ describe('app routes', () => {
 
     // PUT TEST //
   
-    test('updates a todo to completed: true', async() => {
+    //     test('updates a todo to completed: true', async() => {
 
-      const updateTodo = {
-        todo: 'take out the garbage',
-        completed: true,
-      };
+    //       const updateTodo = {
+    //         todo: 'take out the garbage',
+    //         completed: true,
+    //       };
 
-      await fakeRequest(app)
-        .put('/api/todos/5')
-        .send(updateTodo)
-        .set('Authorization', token)
-        .expect('Content-Type', /json/)
-        .expect(200);
+    //       await fakeRequest(app)
+    //         .put('/api/todos/5')
+    //         .send(updateTodo)
+    //         .set('Authorization', token)
+    //         .expect('Content-Type', /json/)
+    //         .expect(200);
       
-      const newData = await fakeRequest(app)
-        .get('/api/todos')
-        .set('Authorization', token)
-        // .expect('Content-Type', /json/)
-        .expect(200);
+    //       const newData = await fakeRequest(app)
+    //         .get('/api/todos')
+    //         .set('Authorization', token)
+    //         // .expect('Content-Type', /json/)
+    //         .expect(200);
 
-      expect(newData.body[0]).toEqual({ ...updateTodo, id: 5, user_id: 2 });
-    });
+    //       expect(newData.body[0]).toEqual({ ...updateTodo, id: 5, user_id: 2 });
+    //     });
   });
 });
