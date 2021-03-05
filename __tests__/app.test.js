@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const { execSync } = require('child_process');
+// const { todos } = require('../data/todos');
 
 const fakeRequest = require('supertest');
 const app = require('../lib/app');
@@ -31,35 +32,75 @@ describe('app routes', () => {
       return client.end(done);
     });
 
-    test('returns animals', async() => {
-
-      const expectation = [
-        {
-          'id': 1,
-          'name': 'bessie',
-          'coolfactor': 3,
-          'owner_id': 1
-        },
-        {
-          'id': 2,
-          'name': 'jumpy',
-          'coolfactor': 4,
-          'owner_id': 1
-        },
-        {
-          'id': 3,
-          'name': 'spot',
-          'coolfactor': 10,
-          'owner_id': 1
-        }
-      ];
-
+    
+    // POST TEST //
+    test('create a todo for test user', async() => {
+      const aTodo = {
+        todo: 'take out the garbage',
+        completed: false,
+      };
+  
+      const expected = {
+        ...aTodo,
+        id: 5,
+        user_id: 2
+      };
+  
       const data = await fakeRequest(app)
-        .get('/animals')
-        .expect('Content-Type', /json/)
-        .expect(200);
+        .post('/api/todos')	        
+        .send(aTodo)
+        .set('Authorization', token)
+        .expect('Content-Type', /json/)       
+        .expect(200);	        
 
-      expect(data.body).toEqual(expectation);
+
+      expect(data.body).toEqual(expected);
+
     });
+
+    // GET TEST //
+    test('read the test users todos', async() => {
+      const expected = [
+        { id: 5,
+          todo: 'take out the garbage',
+          completed: false,
+          user_id: 2
+        }];
+      
+      const data = await fakeRequest(app)
+        .get('/api/todos')
+        .set('Authorization', token)
+        .expect('Content-Type', /json/)
+        .expect(200); 
+
+      expect(data.body).toEqual(expected);
+
+
+    });
+
+    // PUT TEST //
+  
+    //     test('updates a todo to completed: true', async() => {
+
+    //       const updateTodo = {
+    //         todo: 'take out the garbage',
+    //         completed: true,
+    //       };
+
+    //       await fakeRequest(app)
+    //         .put('/api/todos/5')
+    //         .send(updateTodo)
+    //         .set('Authorization', token)
+    //         .expect('Content-Type', /json/)
+    //         .expect(200);
+      
+    //       const newData = await fakeRequest(app)
+    //         .get('/api/todos')
+    //         .set('Authorization', token)
+    //         // .expect('Content-Type', /json/)
+    //         .expect(200);
+
+    //       expect(newData.body[0]).toEqual({ ...updateTodo, id: 5, user_id: 2 });
+    //     });
   });
 });
